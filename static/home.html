@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="home.css">
+        
+    </head>
+    <body>
+        <header class="header"> 
+            <div class="logo">
+                TaitoNotes
+            </div>
+           
+        </header>
+        <div class="flex-container">
+            <div class="note-container">
+                <form class="note-form" id="note-form" >
+                    <div class="note-title">
+                    <label><input id="noteName" type="text" placeholder="Note Title">
+
+                    </input></label>
+                </div>
+                <div class="note-text"></div>
+                    <label><input id="noteText" type="text" placeholder="Write here...">
+
+                    </input></label>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+   
+        <script>
+const form = document.getElementById("note-form")
+			form.addEventListener("submit", SaveNote)
+
+			async function SaveNote(event) {
+				event.preventDefault()
+				const NoteId = document.getElementById('noteName').value
+				const NoteText = document.getElementById('noteText').value
+
+				const result = await fetch("/post-note", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						NoteId,
+						NoteText
+					})
+				}).then((res) => res.json())
+
+                if(result.status === "ok"){
+                    //everything went fine
+                   
+                }else{
+                    alert(result.error)
+                }
+			}
+
+        </script>
+    </body>
+</html>

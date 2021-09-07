@@ -1,0 +1,84 @@
+
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <header class="header"> 
+            <div class="logo">
+                TaitoNotes
+            </div>
+            
+        </header>
+        <div class="flex-container">
+
+
+        <div class="container">
+            <div class="login-item">
+                <form id="login-form" class="form form-login" action="/api/login"> 
+                    <div class="form-field">
+                        <label class="user">
+
+                        </label>
+                        <input class="form-input" type="text" id="username" placeholder="Username"/>
+
+                    </div>
+
+                    <div class="form-field">
+                        <label class="lock">
+
+                        </label>
+                        <input class="form-input" type="password" id="password" placeholder="Password"/>
+                    </div>
+                        <div class="form-field">
+                            <input type="submit" value="Login"/>
+                        </div>
+                   
+                    
+                </form>
+            </div>
+
+        </div>
+        
+         
+   
+        <script>
+         const form = document.getElementById("login-form")
+			form.addEventListener("submit", loginUser)
+
+			async function loginUser(event) {
+				event.preventDefault()
+				const username = document.getElementById('username').value
+				const password = document.getElementById('password').value
+
+				const result = await fetch("/api/login", {
+					method: "POST",
+                    redirect: "manual",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						username,
+						password
+					})
+				}).then((res) => res.json())
+
+                if(result.status === "ok"){
+                     console.log("Got the token: ", result.data)
+                    window.location.href = "http://localhost:9999/home.html"
+                 
+                }else{
+                    alert(result.error)
+                }
+               
+			}
+        </script>
+      </div>
+    </body>
+</html>
